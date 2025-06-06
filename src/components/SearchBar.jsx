@@ -7,26 +7,6 @@ export default function SearchBar() {
   //const [results, setResults] = useState([]);
   const { results, setResults, searchAll } = useMovie();
 
-  console.log(results);
-
-  // chiamata axios per la ricerca dei film
-  const searchMovies = () => {
-    axios
-      .get(import.meta.env.VITE_API_URL, {
-        params: {
-          api_key: import.meta.env.VITE_API_KEY,
-          language: "it-IT",
-          query: query,
-        },
-      })
-      .then((response) => {
-        setResults(response.data.results);
-      })
-      .catch((error) => {
-        console.error("Errore nella richiesta:", error);
-      });
-  };
-
   // Funzione per ricevere il src delle bandiere
 
   const getFlagsSrc = (lang) => {
@@ -45,7 +25,7 @@ export default function SearchBar() {
           placeholder="Scrivi il nome di un film"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button onClick={searchAll}>Cerca</button>
+        <button onClick={() => searchAll(query)}>Cerca</button>
       </div>
 
       <div>
