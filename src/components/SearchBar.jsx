@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
+import { useMovie } from "../context/MovieContext";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  //const [results, setResults] = useState([]);
+  const { results, setResults, searchAll } = useMovie();
 
+  console.log(results);
+
+  // chiamata axios per la ricerca dei film
   const searchMovies = () => {
     axios
       .get(import.meta.env.VITE_API_URL, {
@@ -22,9 +27,17 @@ export default function SearchBar() {
       });
   };
 
+  // Funzione per ricevere il src delle bandiere
+
+  const getFlagsSrc = (lang) => {
+    if (lang === "it") return "/flags/it.png";
+    if (lang === "en") return "/flags/en.png";
+    return "/flags/other.png";
+  };
+
   return (
     <div>
-      <h1>Ricerca Film</h1>
+      <h1>Ricerca Film e serie tv</h1>
       <div>
         <input
           type="text"
@@ -32,16 +45,24 @@ export default function SearchBar() {
           placeholder="Scrivi il nome di un film"
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button onClick={searchMovies}>Cerca</button>
+        <button onClick={searchAll}>Cerca</button>
       </div>
 
       <div>
-        {results.map((movie) => (
-          <div key={movie.id}>
-            <h3>{movie.title}</h3>
-            <p>Titolo Originale: {movie.original_title}</p>
-            <p>Lingua: {movie.original_language}</p>
-            <p>Voto: {movie.vote_average}</p>
+        {results.map((item) => (
+          <div key={item.id}>
+            <h3>{item.title ?? item.name}</h3>
+            <p>
+              {/* Titolo Originale: {movie.original_title ?? movie.original_name} */}
+            </p>
+            <p>
+              Lingua:
+              <img
+                src={getFlagsSrc(item.original_language)}
+                alt={item.original_language}
+              />
+            </p>
+            <p>Voto: {item.vote_average}</p>
             <hr />
           </div>
         ))}
@@ -49,3 +70,5 @@ export default function SearchBar() {
     </div>
   );
 }
+
+// src={getFlagsSrc(movie.original_language)
