@@ -23,6 +23,7 @@ function MovieProvider({ children }) {
           original_title: item.original_title,
           original_language: item.original_language,
           vote_average: item.vote_average,
+          poster: "https://image.tmdb.org/t/p/w342" + item.poster_path,
         }));
 
         axios
@@ -41,6 +42,7 @@ function MovieProvider({ children }) {
               original_title: item.original_name,
               original_language: item.original_language,
               vote_average: item.vote_average,
+              poster: "https://image.tmdb.org/t/p/w342" + item.poster_path,
             }));
 
             setResults([...movieResults, ...tvResults]);

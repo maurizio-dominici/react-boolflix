@@ -4,8 +4,9 @@ import { useMovie } from "../context/MovieContext";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
-  //const [results, setResults] = useState([]);
   const { results, setResults, searchAll } = useMovie();
+
+  console.log(results);
 
   // Funzione per ricevere il src delle bandiere
 
@@ -43,6 +44,7 @@ export default function SearchBar() {
               />
             </p>
             <p>Voto: {item.vote_average}</p>
+            <img src={item.poster} alt={item.title ?? item.name} />
             <hr />
           </div>
         ))}
